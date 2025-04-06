@@ -148,6 +148,33 @@ app.get("/event/name/:eventName",async(req,res)=>{
       res.status(505).json({message:"Error in finding Event by Title/Tag"})  
     }
 })
+
+const showEventById=async(id)=>{
+    try {
+        const data=await Event.findOne({_id:id})
+        if(data){
+            console.log("Event are found")
+        }else{
+            console.log("Events not found")
+        }
+        return data
+    } catch (error) {
+        console.log("Error in founding Events")
+    }
+}
+app.get("/event/:id",async(req,res)=>{
+    try {
+        const data=await showEventById(req.params.id)
+        if(data){
+            res.status(201).json(data)
+        }else{
+            res.status(404).json({message:"Events not Found"})
+        }
+    } catch (error) {
+        console.log("Error in fetching Events Data")
+        
+    }
+})
 const port=process.env.PORT||3000
 
 app.listen(port,()=>(
